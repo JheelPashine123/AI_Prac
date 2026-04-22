@@ -1,0 +1,14 @@
+# Simple Expert System (Yes/No Input)
+
+# Input
+fever = input("Do you have fever? (yes/no): ").lower()
+cough = input("Do you have cough? (yes/no): ").lower()
+
+# Rule 1
+if fever == "yes" and cough == "yes":
+    print("\nDisease: Flu")
+
+    # Rule 2
+    print("Advice: Take medicine")
+else:
+    print("\nNo disease detected")
