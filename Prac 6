@@ -1,0 +1,48 @@
+# Simple Bayesian Network (Rain -> Late)
+
+# Probabilities
+P_Rain = 0.3
+P_NoRain = 0.7
+
+P_Late_given_Rain = 0.6
+P_Late_given_NoRain = 0.1
+
+# -------- USER INPUT --------
+user_input = input("Are you late? (yes/no): ").lower()
+
+if user_input == "yes":
+    late = True
+elif user_input == "no":
+    late = False
+else:
+    print("Invalid input!")
+    exit()
+
+# -------- CALCULATIONS --------
+
+# Total Probability of Late
+P_Late = (P_Rain * P_Late_given_Rain) + (P_NoRain * P_Late_given_NoRain)
+
+# Bayes Theorem
+if late:
+    P_Result = (P_Rain * P_Late_given_Rain) / P_Late
+    label = "P(Rain | Late)"
+else:
+    P_NotLate = 1 - P_Late
+    P_Result = (P_Rain * (1 - P_Late_given_Rain)) / P_NotLate
+    label = "P(Rain | Not Late)"
+
+# -------- OUTPUT --------
+print("\n--- Results ---")
+print("P(Late):", round(P_Late, 3))
+print(label + ":", round(P_Result, 3))
+
+# -------- TEXT GRAPH --------
+print("\n--- Graph (Text Representation) ---")
+
+def draw_bar(name, value):
+    bars = int(value * 50)  # scale to 50 chars
+    print(f"{name:20}: " + "#" * bars + f" ({round(value, 3)})")
+
+draw_bar("P(Late)", P_Late)
+draw_bar(label, P_Result)
