@@ -1,34 +1,86 @@
-# Initial fact
-facts = ["hungry"]
+# -------- FUZZIFICATION --------
+def fuzzify(temp):
+    # Membership values (0 to 1)
+    
+    # Cold
+    if temp <= 20:
+        cold = 1
+    elif 20 < temp < 30:
+        cold = (30 - temp) / 10
+    else:
+        cold = 0
 
-# -------- RULE 1 --------
-def rule1(facts):
-    if "hungry" in facts and "eat" not in facts:
-        print("Rule 1 applied: hungry -> eat")
-        facts.append("eat")
-        return True
-    return False
+    # Warm
+    if 20 < temp < 30:
+        warm = (temp - 20) / 10
+    elif 30 <= temp < 40:
+        warm = (40 - temp) / 10
+    else:
+        warm = 0
 
-# -------- RULE 2 --------
-def rule2(facts):
-    if "eat" in facts and "full" not in facts:
-        print("Rule 2 applied: eat -> full")
-        facts.append("full")
-        return True
-    return False
+    # Hot
+    if temp >= 40:
+        hot = 1
+    elif 30 < temp < 40:
+        hot = (temp - 30) / 10
+    else:
+        hot = 0
 
-# -------- APPLY RULES --------
-def apply_rules(facts):
-    while True:
-        r1 = rule1(facts)
-        r2 = rule2(facts)
+    return cold, warm, hot
 
-        # stop if no rule applied
-        if not (r1 or r2):
-            break
 
-# Run
-print("Initial facts:", facts)
-apply_rules(facts)
-print("\nFinal facts:", facts)
+# -------- RULES --------
+def apply_rules(cold, warm, hot):
+    # Rule 1: IF cold THEN fan slow
+    slow = cold
 
+    # Rule 2: IF warm THEN fan medium
+    medium = warm
+
+    # Rule 3: IF hot THEN fan fast
+    fast = hot
+
+    return slow, medium, fast
+
+
+# -------- DEFUZZIFICATION --------
+def defuzzify(slow, medium, fast):
+    # Assign values
+    slow_val = 20
+    medium_val = 50
+    fast_val = 80
+
+    numerator = (slow * slow_val) + (medium * medium_val) + (fast * fast_val)
+    denominator = slow + medium + fast
+
+    if denominator == 0:
+        return 0
+
+    return numerator / denominator
+
+
+# -------- TEXT GRAPH --------
+def draw_bar(name, value):
+    bars = int(value * 20)
+    print(f"{name:10}: " + "*" * bars + f" ({round(value,2)})")
+
+
+# -------- MAIN PROGRAM --------
+temp = float(input("Enter temperature: "))
+
+cold, warm, hot = fuzzify(temp)
+print("\nFuzzified Values:")
+draw_bar("Cold", cold)
+draw_bar("Warm", warm)
+draw_bar("Hot", hot)
+
+slow, medium, fast = apply_rules(cold, warm, hot)
+
+print("\nRule Output:")
+draw_bar("Slow", slow)
+draw_bar("Medium", medium)
+draw_bar("Fast", fast)
+
+fan_speed = defuzzify(slow, medium, fast)
+
+print("\nFinal Fan Speed:", round(fan_speed, 2))
