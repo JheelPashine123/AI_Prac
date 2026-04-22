@@ -1,0 +1,32 @@
+# CSP Example: X ≠ Y
+
+domain = [1, 2, 3]
+
+# -------- CONSTRAINT FUNCTION --------
+def constraint(x, y):
+    return x != y
+
+
+# -------- SOLVE FUNCTION --------
+def solve():
+    solutions = []
+
+    for x in domain:
+        for y in domain:
+            if constraint(x, y):
+                print("Valid:", "X =", x, ", Y =", y)
+                solutions.append((x, y))
+
+    return solutions
+
+
+# -------- GRAPH FUNCTION --------
+def draw_bar(name, count):
+    print(f"{name:12}: " + "*" * count)
+
+
+# -------- MAIN --------
+print("Solutions:\n")
+solutions = solve()
+
+print("\nTotal Solutions:", len(solutions))
