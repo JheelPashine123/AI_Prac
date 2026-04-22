@@ -1,0 +1,34 @@
+# Initial fact
+facts = ["hungry"]
+
+# -------- RULE 1 --------
+def rule1(facts):
+    if "hungry" in facts and "eat" not in facts:
+        print("Rule 1 applied: hungry -> eat")
+        facts.append("eat")
+        return True
+    return False
+
+# -------- RULE 2 --------
+def rule2(facts):
+    if "eat" in facts and "full" not in facts:
+        print("Rule 2 applied: eat -> full")
+        facts.append("full")
+        return True
+    return False
+
+# -------- APPLY RULES --------
+def apply_rules(facts):
+    while True:
+        r1 = rule1(facts)
+        r2 = rule2(facts)
+
+        # stop if no rule applied
+        if not (r1 or r2):
+            break
+
+# Run
+print("Initial facts:", facts)
+apply_rules(facts)
+print("\nFinal facts:", facts)
+
