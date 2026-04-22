@@ -84,3 +84,31 @@ draw_bar("Fast", fast)
 fan_speed = defuzzify(slow, medium, fast)
 
 print("\nFinal Fan Speed:", round(fan_speed, 2))
+
+
+
+
+
+
+# Values
+a = 0.7
+b = 0.4
+
+# -------- FUNCTIONS --------
+def fuzzy_and(a, b):
+    return min(a, b)
+
+def fuzzy_or(a, b):
+    return max(a, b)
+
+def fuzzy_not(a):
+    return 1 - a
+
+# -------- OUTPUT --------
+print("Value of A:", a)
+print("Value of B:", b)
+
+print("A AND B:", fuzzy_and(a, b))
+print("A OR B:", fuzzy_or(a, b))
+print("NOT A:", fuzzy_not(a))
+print("NOT B:", fuzzy_not(b))
